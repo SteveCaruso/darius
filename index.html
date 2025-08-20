@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+
+        /*
+        let lessons = [
+            ["Unit 1: Singular Pronouns","lessons/lesson-01.md",1],
+            ["Unit 2: Plural Pronouns","lessons/lesson-01.md",2],
+            ["Unit 3: Basic Sentences","lessons/lesson-01.md",3]
+        ];
+        */
+        let lessons = [
+            "lessons/lesson-01.md"
+        ];
+
+    </script>
+</head>
+<body>
+
+<h1>Elementary Galilean Aramaic</h1>
+<h3><gal>$Er N:m hayyalIlag hana$Il</gal></h3>
+<h3>Lessons</h3>
+
+<table id="list">
+</table>
+
+<script>
+    var q = document.querySelector.bind(document);
+        /*
+        function lesson(title, md, sec) {
+            q('#list').innerHTML += `
+            <tr>
+                <td class="title"><a href="lesson.html?lesson=${md}&section=${sec}">${title}</a></td>
+                <td class="count">${localStorage.getItem(md + '_' + sec)??"0"}</td>
+            </tr>`;
+        }
+        for (var i in lessons) lesson(...lessons[i]);
+        */
+
+        async function lesson(file) {
+
+            //Fetch the lesson
+            let lesson = await fetch(file);
+
+            if (!lesson.ok) {
+                alert('Bad lesson file.');
+                throw new Error(`Response status: ${lesson.status}`); //Should catch this somehow later
+            }
+            //Parse lesson
+            lesson = await lesson.text();
+            lesson = lesson.split('\n');
+
+            let sec = 1;
+
+            for (let l in lesson) {
+                lesson[l] = lesson[l].trim();
+                if (lesson[l] == "") continue;
+
+                let [prefix, ...data] = lesson[l].split(' ')
+                data = data.join(' ');
+
+                //Lesson's name
+                if (prefix == "#") {
+                    q('#list').innerHTML += `
+                        <tr>
+                            <th class="title">${data}</th>
+                            <th class="count">Score</th>
+                        </tr>`;
+                }
+                //Section
+                else if (prefix == "##") {
+                    q('#list').innerHTML += `
+                    <tr>
+                        <td class="lessonTableTitle"><a href="lesson.html?lesson=${file}&section=${sec}">${data}</a></td>
+                        <td class="count">${localStorage.getItem(file + '_' + sec)??"0"}</td>
+                    </tr>`;
+                    sec++;
+                }
+            }
+/*
+            q('#list').innerHTML += `
+            <tr>
+                <td class="title"><a href="lesson.html?lesson=${md}&section=${sec}">${title}</a></td>
+                <td class="count">${localStorage.getItem(md + '_' + sec)??"0"}</td>
+            </tr>`;*/
+        }
+        for (var i in lessons) lesson(lessons[i]);
+
+</script>
+
+<footer>
+    All score data is stored locally in your browser.<br/>
+    All the code and raw lesson files are up on GitHub.
+</footer>
+
+<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+<script>
+  kofiWidgetOverlay.draw('stevecaruso', {
+    'type': 'floating-chat',
+    'floating-chat.donateButton.text': 'Support Us',
+    'floating-chat.donateButton.background-color': '#00b9fe',
+    'floating-chat.donateButton.text-color': '#fff'
+  });
+</script>
+
+</body>
+</html>

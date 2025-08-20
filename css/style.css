@@ -1,0 +1,114 @@
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('/fonts/EBGaramond-VariableFont_wght.ttf')  format('truetype');
+}
+@font-face {
+    font-family: 'EB Garamond';
+    src: url('/fonts/EBGaramond-Italic-VariableFont_wght.ttf')  format('truetype');
+    font-style: italic;
+}
+body {
+    font-family:'EB Garamond';
+    text-align:center;
+    font-size: 150%;
+}
+ul {
+    padding:5px;
+    margin:0px;
+}
+li {
+    display:inline-block;
+    line-height:.8;
+    padding:1ex;
+    padding-bottom:1.4ex;
+    margin:0px .5ex ;
+    border:1px solid;
+    border-radius:10px;
+}
+#landing {
+    border-bottom:2px solid black;
+    height:50px;
+}
+
+#playground {
+    min-width:50%;
+}
+
+/* Herodian Font w/Palestinian Vowels */
+@font-face {
+    font-family: 'Galilean';
+    src: url('/fonts/GalHerodPalVow9.ttf')  format('truetype');
+}
+
+gal {
+    display:inline-block;
+    font-family: Galilean;
+    font-size:210%;
+    line-height:50%;
+}
+
+.button {
+
+    margin-top:3ex;
+    margin-bottom:3ex;
+
+    display:inline-block;
+    line-height:1;
+    padding:1ex;
+    margin:0px .5ex ;
+    border:1px solid gray;
+    border-radius:5px;
+    background-color:#eee;
+}
+
+#answer {
+    opacity:0;
+    border:1px solid gray;
+    padding:10px;
+    margin-top:2ex;
+    background-color:#eee;
+    border-radius:10px;
+    transition-duration:.5s;
+}
+
+#correct {
+    position:absolute;
+    top:10px;
+    right:10px;
+    border:1px solid;
+    text-align:center;
+    padding:.5ex;
+    border-radius:5px;
+    font-weight:bold;
+    cursor:pointer;
+}
+#back {
+    position:absolute;
+    top:10px;
+    left:10px;
+    border:1px solid;
+    text-align:center;
+    padding:.5ex;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+#list {
+    min-width:50vw;
+    margin:0px auto;
+    border:1px solid black;
+    padding:.5ex 1ex;
+    border-radius:5px;
+}
+#list {
+    text-align:left;
+}
+
+
+footer {
+    font-size:75%;
+    margin-top:1em;
+}
+.lessonTableTitle {
+    padding-left:1em;
+}
