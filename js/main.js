@@ -212,6 +212,20 @@ function stageExercise(exNum) {
         let correctAnswerCheck = ex[to];
         if (to == "eng") correctAnswerCheck = ex[to].replace(/\./g, ""); //Remove punctuation
 
+        //Determine possibilities
+        let possibilities = correctAnswerCheck.split(' ');
+
+        //Add in 4 distractions
+        for (var i=0; i<4; i++) {
+            possibilities.push(distractions.pop());
+        }
+        
+        //Reduce to uniques
+        possibilities = [...new Set(possibilities)];
+
+        //Shuffle possibilities
+        possibilities = possibilities.sort(() => Math.random() - 0.5);
+
         //Chop up Aramaic for display
         if (from == "arc") {
             //Format the challenge
@@ -221,8 +235,8 @@ function stageExercise(exNum) {
         }
         if (to == "arc") {
             //Format distractions
-            for (var d in distractions)
-                distractions[d] = '<span>'+distractions[d].split('').reverse().join('')+'</span>';
+            for (var p in possibilities)
+                possibilities[p] = '<span>'+possibilities[p].split('').reverse().join('')+'</span>';
             //Format the correct answer
             correctAnswer = correctAnswer.split(' ');
             for (var c in correctAnswer) correctAnswer[c] = correctAnswer[c].split('').reverse().join('');
@@ -235,7 +249,7 @@ function stageExercise(exNum) {
         playground.innerHTML += `<h2 class="${from}">${challenge}</h2>`;
         playground.innerHTML += `<div id="landing" class="${to}"></div>`;
         playground.innerHTML += `<small>Translate the above ${langs[from]} to ${langs[to]}...</small>`;
-        playground.innerHTML += `<ul id="possibilities" class="${to}"><li>${distractions.join('</li><li>')}</li></ul>`;
+        playground.innerHTML += `<ul id="possibilities" class="${to}"><li>${possibilities.join('</li><li>')}</li></ul>`;
         playground.innerHTML += `<div id="check" class="button">Check Answer</div>`;
         playground.innerHTML += `<div id="answer" class="${to}">${correctAnswer}</div>`;
         

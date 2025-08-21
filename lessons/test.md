@@ -2,18 +2,18 @@
 
 ## Unit 1: Singular Pronouns
 ### matching
-- ):nah ==  I (am) 
-- )at.  ==  You (are) 
-- hU)   ==  He (is) 
-- hI)   ==  She (is)
+- ):nah ==  I&nbsp;(am) 
+- )at.  ==  You&nbsp;(are) 
+- hU)   ==  He&nbsp;(is) 
+- hI)   ==  She&nbsp;(is)
 
 ## Unit 2: Plural Pronouns
 ### matching
-- ):naN  ==  We (are) 
-- )at.ON ==  You (are) (m.) 
-- )at.EN ==  You (are) (f.) 
-- hEnUN  ==  They (are) (m.) 
-- hEnEN ==  They (are) (f.) 
+- ):naN  ==  We&nbsp;(are) 
+- )at.ON ==  You&nbsp;(are)&nbsp;(m.) 
+- )at.EN ==  You&nbsp;(are)&nbsp;(f.) 
+- hEnUN  ==  They&nbsp;(are)&nbsp;(m.) 
+- hEnEN ==  They&nbsp;(are)&nbsp;(f.) 
 
 ## Unit 3: Basic Sentences
 ### matching
