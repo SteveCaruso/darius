@@ -1,11 +1,12 @@
 /*
 
-    Yeah... so I need to clean this code up... A lot.
+    I'm actually happier with this code now.
 
-    This started out as a sketch and then metastized with lots of exceptions
-    due to working with Aramaic rtl text.
+    I cleaned it up from the initial commit.
 
-    I will eventually clean it up.
+    It still needs some more work, but so far so good. :-)
+
+    -S
 
 */
 
@@ -47,14 +48,17 @@ var e = (query,event,func) => {
 //Sleep
 var sleep = function(ms) {
     return new Promise((resolve, reject) => {
-        if (q(`#animations`).value == "false") resolve();
-        else setTimeout(resolve, ms);
+        setTimeout(resolve, ms);
     });
 }
 
 //GET Variables
 var GET={};
 window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,function(a,name,value){GET[name]=value;});
+
+/* Load in sounds */
+let successSound = new Audio('/sounds/success.mp3');
+let failSound = new Audio('/sounds/fail.mp3');
 
 /* On to the playground! */
 
@@ -95,7 +99,7 @@ for (let l in lesson) {
 
     if (lesson[l] == "") continue;
 
-    let [prefix, ...data] = lesson[l].split(' ')
+    let [prefix, ...data] = lesson[l].split(' ');
     data = data.join(' ');
 
     //Lesson's name
@@ -109,44 +113,44 @@ for (let l in lesson) {
             "title":data,
             "exercises":[],
             "distractions":{
-                l1:{},
-                l2:{}
+                arc:{},
+                eng:{}
             }
         });
     }
     //Type
     else if (prefix == "###") {
         type = data;
-        if (!section[section.length-1].distractions.l1?.[data]) {
-            section[section.length-1].distractions.l1[data] = [];
-            section[section.length-1].distractions.l2[data] = [];
+        if (!section[section.length-1].distractions.arc?.[data]) {
+            section[section.length-1].distractions.arc[data] = [];
+            section[section.length-1].distractions.eng[data] = [];
         }
     }
     //Element
     else if (prefix == "-") {
 
         //Split off parts
-        let [lang1, ...lang2] = data.split("==");
-            lang2 = lang2.join('==').trim();
-            lang1 = lang1.trim();
+        let [arc, ...eng] = data.split("==");
+            eng = eng.join('==').trim();
+            arc = arc.trim();
 
         //Add in exercise
         section[section.length-1].exercises.push({
             "type":type,
-            "l1":lang1,
-            "l2":lang2
+            "arc":arc,
+            "eng":eng
         });
 
         //Add in distractions
         if (type == "sentences") { //If sentences, split up by word
-            lang1 = lang1.split(' ');
-            lang2 = lang2.replace(/\./g, "").split(' '); //remove periods from english
-            section[section.length-1].distractions.l1[type].push(...lang1);
-            section[section.length-1].distractions.l2[type].push(...lang2);
+            arc = arc.split(' ');
+            eng = eng.replace(/\./g, "").split(' '); //remove periods from english
+            section[section.length-1].distractions.arc[type].push(...arc);
+            section[section.length-1].distractions.eng[type].push(...eng);
         }
         else {
-            section[section.length-1].distractions.l1[type].push(lang1);
-            section[section.length-1].distractions.l2[type].push(lang2);
+            section[section.length-1].distractions.arc[type].push(arc);
+            section[section.length-1].distractions.eng[type].push(eng);
         }
     }
 }
@@ -154,17 +158,19 @@ for (let l in lesson) {
 //Post-processing
 for (var s in section) {
     //Clean distraction pools down to uniques
-    for (var t in section[s].distractions.l1)
-        section[s].distractions.l1[t] = [...new Set(section[s].distractions.l1[t])];
-    for (var t in section[s].distractions.l2)
-        section[s].distractions.l2[t] = [...new Set(section[s].distractions.l2[t])];
+    for (var t in section[s].distractions.arc)
+        section[s].distractions.arc[t] = [...new Set(section[s].distractions.arc[t])];
+    for (var t in section[s].distractions.eng)
+        section[s].distractions.eng[t] = [...new Set(section[s].distractions.eng[t])];
 }
 
+//Random number helper
 let rand = (n) => Math.floor(Math.random()*n);
 
+//Languages
 let langs = {
-    'l1':'Aramaic',
-    'l2':'English'
+    'arc':'Aramaic',
+    'eng':'English'
 };
 
 //Check if section exists
@@ -173,110 +179,146 @@ if (section[sectionNum-1] == null) {
     throw new Error(`Bad section number.`); //Should catch this somehow later
 }
 
-//Load up
-let sec = section[sectionNum-1];
-let ex = sec.exercises[rand(sec.exercises.length)];
-let from = 'l1', to = 'l2';
-if (rand(2)) { from = 'l2'; to = 'l1'; }
-let distractions = sec.distractions[to][ex.type].sort(() => Math.random() - 0.5);
+//Function to select random exercise and stage it.
+function stageExercise(exNum) {
 
-console.log('Type:',ex.type);
-console.log('From:',langs[from], '→' ,langs[to]);
-console.log('Exercise:',ex[from]);
-if (type == "sentences") ex[to] = ex[to].split(' ');
-console.log('Answer:', ex[to]);
-console.log('Distractions:', distractions);
+    //Clear the playground
+    playground.innerHTML = '';
 
-let formattedTo = ex[to].join(" ");
-
-if (from == "l1") {
-    ex[from] = `<gal>${ex[from].split("").reverse().join("")}</gal>`;
-}
-else {
-    formattedTo = `<gal>${formattedTo.split("").reverse().join("")}</gal>`;
-    for (var d in distractions) {
-        distractions[d] = `<gal>${distractions[d].split("").reverse().join("")}</gal>`;
-    }
-}
-
-playground.innerHTML += `<h2>${ex[from]}</h2>`;
-playground.innerHTML += `<div id="landing"></div>`;
-playground.innerHTML += `<small>Translate the above ${langs[from]} to ${langs[to]}...</small>`;
-playground.innerHTML += `<ul id="possibilities"><li>${sec.distractions[to][ex.type].join('</li><li>')}</li></ul>`;
-playground.innerHTML += `<div id="check" class="button">Check Answer</div>`;
-playground.innerHTML += `<div id="answer">${formattedTo}</div>`;
-
-// Attach events
-e('#check','click',function (e) {
-
-    //If the answer has been revealed, refresh
-    if (this.innerHTML == "Next Exercise") {
-        location.reload();
-        return;
-    }
-
-    //Otherwise fade in answer and switch to next state
-    q('#answer').style.opacity = '1';
-    this.style.fontWeight = "bold";
-    this.innerHTML = 'Next Exercise';
-
-    //Then lock out the old controls
-    q('#landing').style.opacity = ".5";
-    q('#landing').style.pointerEvents = "none";
-    q('#possibilities').style.opacity = ".5";
-    q('#possibilities').style.pointerEvents = "none";
-
-    //Check to see if the answer is correct
-
-    //Get their work
-    let landing = qa('#landing li');
-    let theirAnswer = [];
-    for (var i=0; i<landing.length; i++) {
-        theirAnswer.push(landing[i].innerText);
-    }
-
-    //Get the correct answer
-    let correctAnswer = ex[to].join(' ');
-
-    //If it's an Aramaic answer, flip it
-    if (to == 'l1') {
-        theirAnswer.reverse();
-        for (var a in theirAnswer) theirAnswer[a] = theirAnswer[a].split('').reverse().join('');
-        theirAnswer = theirAnswer.join(' ');
-    }
-    //If it's English remove punctuation from the answer entirely
-    else {
-        correctAnswer = correctAnswer.replace(/\./g, "");
-        theirAnswer = theirAnswer.join(' ').replace(/\./g, "");
-    }
-
-    //Print comparison to console
-    console.log('Your Answer:',theirAnswer, "Correct Answer:",correctAnswer);
+    //Load up the section
+    let sec = section[sectionNum-1];
     
-    //Check if they're the same.
-    if (theirAnswer == correctAnswer) {
-        q('#answer').style.backgroundColor = "rgb(128,255,128)";
-        score++;
-        localStorage.setItem(scoreIndex,score);
-        q('#score').innerHTML = score;
-    }
-    else {
-        q('#answer').style.backgroundColor = "rgb(225,128,128)";
+    //If there is no exercise num passed, randomize it
+    if (exNum == null) exNum = rand(sec.exercises.length);
+
+    //Grab the exercise
+    let ex = sec.exercises[exNum];
+
+    //Determine which language to which
+    let from = 'arc', to = 'eng';
+    if (rand(2)) { from = 'eng'; to = 'arc'; }
+
+    //Single matching or sentences
+    if (ex.type == "matching" || ex.type == "sentences") {
+
+        //Get distractions
+        let distractions = [...sec.distractions[to][ex.type].sort(() => Math.random() - 0.5)];
+
+        //Determine the challenge to display
+        let challenge = ex[from];//.split(' ');
+
+        //Determine the correct answer for comparison
+        let correctAnswer = ex[to];
+        let correctAnswerCheck = ex[to];
+        if (to == "eng") correctAnswerCheck = ex[to].replace(/\./g, ""); //Remove punctuation
+
+        //Chop up Aramaic for display
+        if (from == "arc") {
+            //Format the challenge
+            challenge = challenge.split(' ');
+            for (var c in challenge) challenge[c] = challenge[c].split('').reverse().join('');
+            challenge = '<span>' + challenge.join('</span> <span>') + '</span>';
+        }
+        if (to == "arc") {
+            //Format distractions
+            for (var d in distractions)
+                distractions[d] = '<span>'+distractions[d].split('').reverse().join('')+'</span>';
+            //Format the correct answer
+            correctAnswer = correctAnswer.split(' ');
+            for (var c in correctAnswer) correctAnswer[c] = correctAnswer[c].split('').reverse().join('');
+            correctAnswer = '<span>' + correctAnswer.join('</span> <span>') + '</span>';
+        }
+
+        console.log(challenge, '---', correctAnswer, '---', correctAnswerCheck);
+        
+        //Populate the playground
+        playground.innerHTML += `<h2 class="${from}">${challenge}</h2>`;
+        playground.innerHTML += `<div id="landing" class="${to}"></div>`;
+        playground.innerHTML += `<small>Translate the above ${langs[from]} to ${langs[to]}...</small>`;
+        playground.innerHTML += `<ul id="possibilities" class="${to}"><li>${distractions.join('</li><li>')}</li></ul>`;
+        playground.innerHTML += `<div id="check" class="button">Check Answer</div>`;
+        playground.innerHTML += `<div id="answer" class="${to}">${correctAnswer}</div>`;
+        
+
+        //Attach events
+
+        //Add putting possibilities into the landing and back
+        e('#possibilities li','click',function (e) { console.log(this,e);
+            if (this.parentElement.id == "possibilities") {
+                q('#landing').appendChild(this);
+            }
+            else {
+                q('#possibilities').appendChild(this);
+            }
+        });
+
+        //Check the answer
+        e('#check','click', async function (e) {
+
+            //If the answer has already been revealed, refresh
+            if (this.innerHTML == "Next Exercise") {
+                playground.style.opacity = 0;
+                await sleep(510);
+                stageExercise();
+                playground.style.opacity = 1;
+                return;
+            }
+
+            //Otherwise fade in answer and switch to next state
+            q('#answer').style.opacity = '1';
+            this.style.fontWeight = "bold";
+            this.innerHTML = 'Next Exercise';
+
+            //Then lock out the old controls
+            q('#landing').style.opacity = ".5";
+            q('#landing').style.pointerEvents = "none";
+            q('#possibilities').style.opacity = ".5";
+            q('#possibilities').style.pointerEvents = "none";
+
+            //Get their answer
+            let landing = qa('#landing li');
+            let theirAnswer = [];
+            for (var i=0; i<landing.length; i++) {
+                
+                //Get the text in the box.
+                let text = landing[i].innerText;
+
+                //If it's in Aramaic, reverse it
+                if (to == "arc") text = text.split('').reverse().join('');
+
+                //Add it to the answer
+                theirAnswer.push(text);
+            }
+            theirAnswer = theirAnswer.join(' ');
+
+            //Check answer
+            if (theirAnswer == correctAnswerCheck) {
+                q('#answer').style.backgroundColor = "rgb(128,255,128)";
+                score++;
+                localStorage.setItem(scoreIndex,score);
+                q('#score').innerHTML = score;
+                successSound.play();
+            }
+            else {
+                q('#answer').style.backgroundColor = "rgb(225,128,128)";
+                failSound.play();
+            }
+
+        }); //END check answer
+
+        return;
+
+
     }
 
-});
-e('#possibilities li','click',function (e) { console.log(this,e);
-    if (this.parentElement.id == "possibilities") {
-        if (to == "l1")
-            q('#landing').insertBefore(this, q('#landing').firstChild);
-        else
-            q('#landing').appendChild(this);
-    }
-    else {
-        q('#possibilities').appendChild(this);
-    }
-});
+}//End stageExercise
 
+stageExercise();
+
+
+//Other events
+
+//Reset score
 e('#correct','click',function (e) {
     let reset = confirm("Do you want to reset your score?");
     if (reset) {
@@ -286,6 +328,8 @@ e('#correct','click',function (e) {
             q('#score').innerHTML = score;
     }
 });
+
+//Go back to the index
 e('#back','click',function (e) {
     window.location = 'index.html';
 });

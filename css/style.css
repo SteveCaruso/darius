@@ -28,11 +28,12 @@ li {
 #landing {
     border-bottom:2px solid black;
     height:50px;
-    padding-bottom:5px;
+    padding-bottom:20px;
 }
 
 #playground {
     min-width:50%;
+    transition-duration:.5s;
 }
 
 /* Herodian Font w/Palestinian Vowels */
@@ -41,11 +42,23 @@ li {
     src: url('/fonts/GalHerodPalVow9.ttf')  format('truetype');
 }
 
-gal {
+h2.arc, #landing.arc, #answer.arc {
+    font-weight:normal;
+    display:flex;
+    flex-direction:row-reverse;
+    flex-wrap:wrap;
+    justify-content:center;
+    column-gap:15px;
+}
+#landing.arc, #answer.arc {
+    column-gap:10px;
+}
+.arc span {
     display:inline-block;
+    padding-bottom:10px;
     font-family: Galilean;
     font-size:210%;
-    line-height:50%;
+    line-height:60%;
 }
 
 .button {
