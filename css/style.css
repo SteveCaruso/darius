@@ -42,6 +42,14 @@ li {
     src: url('/fonts/GalHerodPalVow9.ttf')  format('truetype');
 }
 
+gal {
+    display:inline-block;
+    padding-bottom:10px;
+    font-family: Galilean;
+    font-size:210%;
+    line-height:60%;
+}
+
 h2.arc, #landing.arc, #answer.arc {
     font-weight:normal;
     display:flex;
