@@ -134,3 +134,20 @@ footer {
 .lessonTableTitle {
     padding-left:1em;
 }
+
+.count {
+    text-align:center;
+}
+
+.count.bronze::before, #score.bronze::before {
+    content : "🥉";
+}
+.count.silver::before, #score.silver::before {
+    content : "🥈";
+}
+.count.gold::before, #score.gold::before {
+    content : "🏅";
+}
+.count.dove::before, #score.dove::before {
+    content : "🕊️";
+}

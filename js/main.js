@@ -86,6 +86,14 @@ if (score == null) {
 }
 q('#score').innerHTML = score;
 
+//Set star
+let star = "";
+if (score >= 25) star = "bronze";
+if (score >= 50) star = "silver";
+if (score >= 75) star = "gold";
+if (score >= 100) star = "dove";
+q('#score').className = star;
+
 //Parse lesson
 lesson = await lesson.text();
 lesson = lesson.split('\n'); //console.log(lesson);
@@ -210,6 +218,8 @@ function stageExercise(exNum) {
         //Determine the correct answer for comparison
         let correctAnswer = ex[to];
         let correctAnswerCheck = ex[to];
+
+        //Remove punctuation
         if (to == "eng") correctAnswerCheck = ex[to].replace(/\./g, ""); //Remove punctuation
 
         //Determine possibilities
@@ -219,6 +229,10 @@ function stageExercise(exNum) {
         for (var i=0; i<4; i++) {
             possibilities.push(distractions.pop());
         }
+
+        //Fix non-breaking spaces everywhere
+        correctAnswerCheck = correctAnswerCheck.replaceAll('&nbsp;',' '); //nbsp
+        for (var p in possibilities) possibilities[p] = possibilities[p].replaceAll('&nbsp;',' ');
         
         //Reduce to uniques
         possibilities = [...new Set(possibilities)];
@@ -243,7 +257,7 @@ function stageExercise(exNum) {
             correctAnswer = '<span>' + correctAnswer.join('</span> <span>') + '</span>';
         }
 
-        console.log(challenge, '---', correctAnswer, '---', correctAnswerCheck);
+        console.log(challenge, ' --- ', correctAnswer, ' --- ', correctAnswerCheck);
         
         //Populate the playground
         playground.innerHTML += `<h2 class="${from}">${challenge}</h2>`;
@@ -305,12 +319,22 @@ function stageExercise(exNum) {
             }
             theirAnswer = theirAnswer.join(' ');
 
+            console.log("Your Answer: `" + theirAnswer + "` Correct Answer: `" + correctAnswerCheck + "`", theirAnswer == correctAnswerCheck); 
+
             //Check answer
             if (theirAnswer == correctAnswerCheck) {
                 q('#answer').style.backgroundColor = "rgb(128,255,128)";
                 score++;
                 localStorage.setItem(scoreIndex,score);
                 q('#score').innerHTML = score;
+                
+                let star = "";
+                if (score >= 25) star = "bronze";
+                if (score >= 50) star = "silver";
+                if (score >= 75) star = "gold";
+                if (score >= 100) star = "dove";
+                q('#score').className = star;
+
                 successSound.play();
             }
             else {
@@ -340,6 +364,7 @@ e('#correct','click',function (e) {
             localStorage.setItem(scoreIndex,0);
             score = 0;
             q('#score').innerHTML = score;
+            q('#score').className = '';
     }
 });
 

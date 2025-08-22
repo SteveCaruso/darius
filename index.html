@@ -27,48 +27,54 @@
 <script>
     var q = document.querySelector.bind(document);
        
-        async function lesson(file) {
+    async function lesson(file) {
 
-            //Fetch the lesson
-            let lesson = await fetch(file);
+        //Fetch the lesson
+        let lesson = await fetch(file);
 
-            if (!lesson.ok) {
-                alert('Bad lesson file.');
-                throw new Error(`Response status: ${lesson.status}`); //Should catch this somehow later
-            }
-            //Parse lesson
-            lesson = await lesson.text();
-            lesson = lesson.split('\n');
+        if (!lesson.ok) {
+            alert('Bad lesson file.');
+            throw new Error(`Response status: ${lesson.status}`); //Should catch this somehow later
+        }
+        //Parse lesson
+        lesson = await lesson.text();
+        lesson = lesson.split('\n');
 
-            let sec = 1;
+        let sec = 1;
 
-            for (let l in lesson) {
-                lesson[l] = lesson[l].trim();
-                if (lesson[l] == "") continue;
+        for (let l in lesson) {
+            lesson[l] = lesson[l].trim();
+            if (lesson[l] == "") continue;
 
-                let [prefix, ...data] = lesson[l].split(' ')
-                data = data.join(' ');
+            let [prefix, ...data] = lesson[l].split(' ')
+            data = data.join(' ');
 
-                //Lesson's name
-                if (prefix == "#") {
-                    q('#list').innerHTML += `
-                        <tr>
-                            <th class="title">${data}</th>
-                            <th class="count">Score</th>
-                        </tr>`;
-                }
-                //Section
-                else if (prefix == "##") {
-                    q('#list').innerHTML += `
+            //Lesson's name
+            if (prefix == "#") {
+                q('#list').innerHTML += `
                     <tr>
-                        <td class="lessonTableTitle"><a href="lesson.html?lesson=${file}&section=${sec}">${data}</a></td>
-                        <td class="count">${localStorage.getItem(file + '_' + sec)??"0"}</td>
+                        <th class="title">${data}</th>
+                        <th class="count">Score</th>
                     </tr>`;
-                    sec++;
-                }
+            }
+            //Section
+            else if (prefix == "##") {
+                let count = localStorage.getItem(file + '_' + sec)??0;
+                let star = "";
+                if (count >= 25) star = "bronze";
+                if (count >= 50) star = "silver";
+                if (count >= 75) star = "gold";
+                if (count >= 100) star = "dove";
+                q('#list').innerHTML += `
+                <tr>
+                    <td class="lessonTableTitle"><a href="lesson.html?lesson=${file}&section=${sec}">${data}</a></td>
+                    <td class="count ${star}">${count}</td>
+                </tr>`;
+                sec++;
             }
         }
-        for (var i in lessons) lesson(lessons[i]);
+    }
+    for (var i in lessons) lesson(lessons[i]);
 
 </script>
 
