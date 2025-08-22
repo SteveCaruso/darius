@@ -88,6 +88,7 @@ q('#score').innerHTML = score;
 
 //Set star
 let star = "";
+if (score >= 10) star = "star";
 if (score >= 25) star = "bronze";
 if (score >= 50) star = "silver";
 if (score >= 75) star = "gold";
@@ -329,6 +330,7 @@ function stageExercise(exNum) {
                 q('#score').innerHTML = score;
                 
                 let star = "";
+                if (score >= 10) star = "star";
                 if (score >= 25) star = "bronze";
                 if (score >= 50) star = "silver";
                 if (score >= 75) star = "gold";

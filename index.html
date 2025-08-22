@@ -61,6 +61,7 @@
             else if (prefix == "##") {
                 let count = localStorage.getItem(file + '_' + sec)??0;
                 let star = "";
+                if (count >= 10) star = "star";
                 if (count >= 25) star = "bronze";
                 if (count >= 50) star = "silver";
                 if (count >= 75) star = "gold";
