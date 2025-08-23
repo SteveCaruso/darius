@@ -11,3 +11,8 @@ It's all really lightweight, all of the lessons are in Markdown format. And the 
 Peace,  
 **Steve Caruso**  
 Aug 20 2025
+
+# Features
+
+- Markdown files for lessons in a simple format.
+- Badges for score count (⭐=10, 🥉=25, 🥈=50, 🏅=75, 🕊️=100+).

@@ -214,14 +214,16 @@ function stageExercise(exNum) {
         let distractions = [...sec.distractions[to][ex.type].sort(() => Math.random() - 0.5)];
 
         //Determine the challenge to display
-        let challenge = ex[from];//.split(' ');
+        let challenge = ex[from].replaceAll('_',' ');//.split(' ');
 
         //Determine the correct answer for comparison
         let correctAnswer = ex[to];
         let correctAnswerCheck = ex[to];
 
+        //NOTE: Instead of removing punctuation here, I should keep things split between display and check.
+
         //Remove punctuation
-        if (to == "eng") correctAnswerCheck = ex[to].replace(/\./g, ""); //Remove punctuation
+        //if (to == "eng") correctAnswerCheck = ex[to].replace(/\./g, ""); //Remove punctuation
 
         //Determine possibilities
         let possibilities = correctAnswerCheck.split(' ');
@@ -232,8 +234,8 @@ function stageExercise(exNum) {
         }
 
         //Fix non-breaking spaces everywhere
-        correctAnswerCheck = correctAnswerCheck.replaceAll('&nbsp;',' '); //nbsp
-        for (var p in possibilities) possibilities[p] = possibilities[p].replaceAll('&nbsp;',' ');
+        correctAnswerCheck = correctAnswerCheck.replaceAll('_',' '); //nbsp
+        for (var p in possibilities) possibilities[p] = possibilities[p].replaceAll('_',' ');
         
         //Reduce to uniques
         possibilities = [...new Set(possibilities)];
@@ -257,6 +259,7 @@ function stageExercise(exNum) {
             for (var c in correctAnswer) correctAnswer[c] = correctAnswer[c].split('').reverse().join('');
             correctAnswer = '<span>' + correctAnswer.join('</span> <span>') + '</span>';
         }
+        correctAnswer = correctAnswer.replaceAll('_',' ');
 
         console.log(challenge, ' --- ', correctAnswer, ' --- ', correctAnswerCheck);
         

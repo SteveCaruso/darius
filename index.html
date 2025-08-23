@@ -8,7 +8,9 @@
     <script>
 
         let lessons = [
-            "lessons/alphabet.md",
+            "lessons/alphabet.md",  
+            "lessons/pronouns.md",
+            "lessons/food.md",
             "lessons/test.md"
         ];
 
@@ -73,9 +75,10 @@
                 </tr>`;
                 sec++;
             }
-        }
+        } 
+        return;
     }
-    for (var i in lessons) lesson(lessons[i]);
+    lessons.forEach( async (l) => await lesson(l) ); //There is a small race condition here that needs fixing...
 
 </script>
 
