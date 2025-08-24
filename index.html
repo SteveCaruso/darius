@@ -50,7 +50,7 @@
 <table id="list">
 </table>
 
-<script>
+<script type="module">
     var q = document.querySelector.bind(document);
        
     async function lesson(file) {
@@ -102,11 +102,12 @@
         } 
         return;
     }
-    lessons.forEach( async (l) => await lesson(l) ); //There is a small race condition here that needs fixing...
+    for (var l in lessons) await lesson(lessons[l]);
 
 </script>
 
 <footer>
+    ⭐ → 🥉 → 🥈 → 🏅 → 🕊️<br/>
     All score data is stored locally in your browser.<br/>
     All the code and raw lesson files are <a href="https://github.com/SteveCaruso/darius">up on GitHub</a>.
 </footer>
