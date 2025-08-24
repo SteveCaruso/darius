@@ -40,7 +40,7 @@
 - )ayytE l:hON (EgOlah d:pEt.tah == bring them the loaf of bread
 
 - ):nah caraK mazON              == I need food
-- )at. caraK qah:wwah            == you need *coffee
+- )at. caraK qah:wwah            == you_(s.) need *coffee
 - ):nAN carkIN pEryyah           == we need the fruit
 - )atON xasrIN x:mar             == you_(pl.) lack wine
 
