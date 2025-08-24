@@ -171,3 +171,16 @@ footer {
 .count.dove::before, #score.dove::before {
     content : "🕊️";
 }
+
+#mainLogo {
+    max-width:150px;
+    border-radius:150px;
+}
+#appLogo {
+    max-width:64px;
+    border-radius:64px;
+    position:absolute;
+    top:10px;
+    left:50%;
+    margin-left: -32px;
+}
