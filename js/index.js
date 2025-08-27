@@ -100,7 +100,10 @@ function download(content, fileName, contentType) {
     a.click();
 }
 
-const data = encodeURI("http://localhost:5500/?load=" + await JSON.stringify(progress)); 
+//Dev
+//const data = encodeURI("http://localhost:5500/?load=" + await JSON.stringify(progress)); 
+//Prod
+const data = encodeURI("http://learn.galileanaramaic.com/?load=" + await JSON.stringify(progress)); 
 
 console.log(data);
 
