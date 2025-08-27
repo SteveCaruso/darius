@@ -63,7 +63,7 @@ let failSound = new Audio('/sounds/fail.mp3');
 /* On to the playground! */
 
 //Get the lesson file & section
-let lessonFile = GET['lesson'] ?? 'lessons/lesson-01.md';
+let lessonFile = GET['lesson'] ?? 'alphabet.md';
 let sectionNum = GET['section'] ?? 1;
 let scoreIndex = lessonFile+'_'+sectionNum; console.log("Score Index:",scoreIndex)
 
@@ -71,7 +71,7 @@ let scoreIndex = lessonFile+'_'+sectionNum; console.log("Score Index:",scoreInde
 let playground = q('#playground');
 
 //Fetch the lesson
-let lesson = await fetch(lessonFile);
+let lesson = await fetch('/lessons/'+lessonFile);
 
 if (!lesson.ok) {
     alert('Bad lesson file.');
@@ -195,7 +195,7 @@ function stageExercise(exNum) {
     playground.innerHTML = '';
 
     //Load up the section
-    let sec = section[sectionNum-1];
+    let sec = section[sectionNum-1]; console.log(sec);
     
     //If there is no exercise num passed, randomize it
     if (exNum == null) exNum = rand(sec.exercises.length);
@@ -223,7 +223,7 @@ function stageExercise(exNum) {
         //NOTE: Instead of removing punctuation here, I should keep things split between display and check.
 
         //Remove punctuation
-        //if (to == "eng") correctAnswerCheck = ex[to].replace(/\./g, ""); //Remove punctuation
+        if (to == "eng") correctAnswerCheck = ex[to].replace(/\./g, ""); //Remove punctuation
 
         //Determine possibilities
         let possibilities = correctAnswerCheck.split(' ');
@@ -249,6 +249,8 @@ function stageExercise(exNum) {
             challenge = challenge.split(' ');
             for (var c in challenge) challenge[c] = challenge[c].split('').reverse().join('');
             challenge = '<span>' + challenge.join('</span> <span>') + '</span>';
+
+            //
         }
         if (to == "arc") {
             //Format distractions
@@ -327,7 +329,7 @@ function stageExercise(exNum) {
 
             //Check answer
             if (theirAnswer == correctAnswerCheck) {
-                q('#answer').style.backgroundColor = "rgb(128,255,128)";
+                q('#answer').style.backgroundColor = "var(--correct)";
                 score++;
                 localStorage.setItem(scoreIndex,score);
                 q('#score').innerHTML = score;
@@ -341,9 +343,13 @@ function stageExercise(exNum) {
                 q('#score').className = star;
 
                 successSound.play();
+
+                //Set streak
+                checkStreak();
+
             }
             else {
-                q('#answer').style.backgroundColor = "rgb(225,128,128)";
+                q('#answer').style.backgroundColor = "var(--wrong)";
                 failSound.play();
             }
 
@@ -357,6 +363,34 @@ function stageExercise(exNum) {
 }//End stageExercise
 
 stageExercise();
+
+
+//Streak
+let last = parseInt(localStorage.getItem("last") ?? 0);
+let streak = parseInt(localStorage.getItem("streak") ?? 0);
+
+//Round down the timestamp to the day
+let dayOffset = (1000 * 60 * 60 * 25); //25 hours, wiggleroom
+
+function checkStreak() {
+
+    //Calculate midnight timestamp today
+    let now = new Date();
+    let today = new Date(`${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`);
+        today = today.valueOf();
+
+    //Calculate midnight timestamp from last lesson
+    let lastTime = new Date(last);
+    let lastLesson = new Date(`${lastTime.getFullYear()}/${lastTime.getMonth() + 1}/${lastTime.getDate()}`);
+    lastLesson = lastLesson.valueOf();
+
+    //If the last lesson wasn't completed today, add to the streak
+    if (lastLesson != today) {
+        localStorage.setItem("streak",streak+1);
+        localStorage.setItem("last",now.valueOf());
+        console.log("Streak extended!");
+    }
+}
 
 
 //Other events

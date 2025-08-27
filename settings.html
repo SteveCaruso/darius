@@ -30,53 +30,36 @@
     <script>
 
         let lessons = [
-            "alphabet.md",  
-            "pronouns.md",
-            "simple-sentences.md",
-            "my-name-is.md",
-            "food.md",
-            "time.md",
+            "lessons/alphabet.md",  
+            "lessons/pronouns.md",
+            "lessons/simple-sentences.md",
+            "lessons/my-name-is.md",
+            "lessons/food.md",
+            "lessons/time.md", 
+            "lessons/test.md"
         ];
 
     </script>
 </head>
 <body>
 
-<div id="streak"></div>
 <img id="mainLogo" src="/img/jonah.png">
 
-<h1>Learn Galilean Aramaic</h1>
-<h3><gal>hayyalIlag hana$Il NaplU)</gal></h3>
+<h2>Settings</h2>
 
-<p>This app is a supplement to <strong><a href="https://galileanaramaic.com">Elementary Galilean Aramaic</a></strong>.</p>
+<button>Save Your Progress</button>
 
-<table id="list">
-</table>
+<button>Load Your Progress</button>
 
-<div id="qr-save">
+<button>Progress QR Code</button>
 
-    <h2>Your Progress Data:</h2>
+<button>Scan Your Progress</button>
 
-    <id id="qr-code"></id>
-
-    <div>Scan this with any QR code reader app on another device to transfer a copy of your progress to that device.</div>
-
-    <div id="save-link">Or you can click here to copy and send or save this link.</div>
-
-    <div>
-        <button id="close-qr-save">Close</button>
-    </div>
-
-</div>
-
-<script type="module" src="/js/qrcode.mjs"></script>
-<script type="module" src="/js/index.js"></script>
 
 <footer>
     ⭐ → 🥉 → 🥈 → 🏅 → 🕊️<br/>
     All score data is stored locally in your browser.<br/>
-    All the code and raw lesson files are <a href="https://github.com/SteveCaruso/darius">up on GitHub</a>.<br/>
-     <button id="qr">Save or Transfer Progress</button>
+    All the code and raw lesson files are <a href="https://github.com/SteveCaruso/darius">up on GitHub</a>.
 </footer>
 
 <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>

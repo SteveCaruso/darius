@@ -7,11 +7,55 @@
     src: url('/fonts/EBGaramond-Italic-VariableFont_wght.ttf')  format('truetype');
     font-style: italic;
 }
+
+:root {
+    --text: #000;
+    --bgcolor: #FFF;
+    --lines: #000;
+    --button-light: #eee;
+    --button-dark: #aaa;
+    --correct: rgb(128,255,128);
+    --wrong: rgb(225,128,128);
+    --link: blue;
+    --visited: purple;
+    --active: red;
+}
+/* Dark Mode eventually...*/
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #FFF;
+        --bgcolor: #222;
+        --lines: #999;
+        --button-light: #333;
+        --button-dark: #CCC;
+        --correct: rgb(29, 59, 29);
+        --wrong: rgb(69, 0, 0);
+        --link: #eee;
+        --visited: #aaa;
+        --active: red;
+    }
+}
+/* */
+
 body {
+    transition-duration:1s;
     font-family:'EB Garamond';
     text-align:center;
     font-size: 150%;
+    color: var(--text);
+    background-color:var(--bgcolor);
 }
+
+a {
+    color:var(--link);
+}
+a:visited {
+    color:var(--visited);
+}
+a:active {
+    color:var(--active);
+}
+
 ul {
     padding:5px;
     margin:0px;
@@ -26,7 +70,7 @@ li {
     border-radius:10px;
 }
 #landing {
-    border-bottom:2px solid black;
+    border-bottom:2px solid var(--lines);
     height:50px;
     padding-bottom:20px;
 }
@@ -69,7 +113,10 @@ h2.arc, #landing.arc, #answer.arc {
     line-height:60%;
 }
 
-.button {
+
+button, .button {
+
+    color:var(--lines);
 
     margin-top:3ex;
     margin-bottom:3ex;
@@ -78,17 +125,17 @@ h2.arc, #landing.arc, #answer.arc {
     line-height:1;
     padding:1ex;
     margin:0px .5ex ;
-    border:1px solid gray;
+    border:1px solid var(--button-dark);
     border-radius:5px;
-    background-color:#eee;
+    background-color: var(--button-light);
 }
 
 #answer {
     opacity:0;
-    border:1px solid gray;
+    border:1px solid var(--button-dark);
     padding:10px;
     margin-top:2ex;
-    background-color:#eee;
+    background-color: var(--button-light);
     border-radius:10px;
     transition-duration:.5s;
 }
@@ -118,7 +165,7 @@ h2.arc, #landing.arc, #answer.arc {
 #list {
     min-width:50vw;
     margin:0px auto;
-    border:1px solid black;
+    border:1px solid var(--lines);
     padding:.5ex 1ex;
     border-radius:5px;
 }
@@ -140,30 +187,14 @@ footer {
     text-align:center;
 }
 
-#score.star {
-    transition-duration:1s;
-    background-color:rgb(255, 255, 170);
-}
 .count.star::before, #score.star::before {
     content : "⭐";
-}
-#score.bronze {
-    transition-duration:1s;
-    background-color:rgb(255, 186, 108);
 }
 .count.bronze::before, #score.bronze::before {
     content : "🥉";
 }
-#score.silver {
-    transition-duration:1s;
-    background-color:rgb(193, 193, 193);
-}
 .count.silver::before, #score.silver::before {
     content : "🥈";
-}
-#score.gold {
-    transition-duration:1s;
-    background-color:rgb(255, 228, 122);
 }
 .count.gold::before, #score.gold::before {
     content : "🏅";
@@ -183,4 +214,52 @@ footer {
     top:10px;
     left:50%;
     margin-left: -32px;
+}
+
+#qr-save {
+    position:fixed;
+    top:0px;
+    left:0px;
+    width:100vw;
+    height:100vh;
+    /*background-color:rgba(255,255,255,.95);*/
+    backdrop-filter: blur(0px);
+    display:none;
+}
+#qr-save.visible {
+    display:block;
+    backdrop-filter: blur(10px);
+}
+#qr-save svg {
+    width:100%;
+    max-width:300px;
+}
+
+button, #save-link {
+    border:1px solid var(--button-dark);
+    background-color: var(--button-light);
+    padding:.25ex 1ex;
+    border-radius:2em;
+    display:inline-block;
+    margin:1ex 0;
+    cursor:pointer;
+}
+#save-link:hover {
+    background-color: var(--button-light);
+    border-color: var(--lines);
+}
+
+#streak {
+    position:absolute;
+    padding:.5ex 2ex;
+    max-width:100px;
+    border:1px solid var(--lines);
+    background-color: var(--bgcolor);
+    border-radius:2em;
+    border-bottom-right-radius:0px;
+    right:50%;
+    margin-right:50px;
+}
+#streak:empty {
+    display:none;
 }

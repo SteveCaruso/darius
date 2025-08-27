@@ -42,7 +42,8 @@
 - ):nah caraK mazON              == I need food
 - )at. caraK qah:wwah            == you_(s.) need *coffee
 - ):nAN carkIN pEryyah           == we need the fruit
-- )atON xasrIN x:mar             == you_(pl.) lack wine
+- )atON carkIN x:mar             == you_(pl.) need wine
 
- - xsr == lack
- - crK == need
+//- xsr == lack
+//- crK == need
+
