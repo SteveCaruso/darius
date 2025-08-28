@@ -142,7 +142,11 @@ if (GET['load']) {
         //Loop over and set
         for (let lesson in newData) {
             let exercise = newData[lesson];
-            for (let e in exercise) {
+            if (lesson == "streak" || lesson == "last") {
+                console.log(lesson,exercise);
+                localStorage.setItem(lesson,exercise);
+            }
+            else for (let e in exercise) {
                 console.log(lesson+'_'+exercise[e][0],exercise[e][1]);
                 localStorage.setItem(lesson+'_'+exercise[e][0],exercise[e][1]);
             }
