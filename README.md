@@ -1,7 +1,7 @@
-<center>
+<p style="text-align:center">
 <img src="img/jonah.png" style="max-width:150px; border-radius:150px;"><br>
 <em>(This is Jonah. :-) )</em>
-</center>
+</p>
 
 ## Codename DARIUS
 
