@@ -1,5 +1,3 @@
-// service-worker.js
-
 let notificationTimeoutId = null;  //Important to share it globally
 
 self.addEventListener("install", (event) => {
@@ -10,13 +8,17 @@ addEventListener('message', function(event) {
   // event is an ExtendableMessageEvent object
   console.log(`The client sent me a message: ${event}`);
 
-  this.setInterval(() => event.source.postMessage("Hi client"), 2000);
+  
 });
 
 self.addEventListener('message', function(event) {
     event.source.postMessage('Event received!');
 });
 
+self.addEventListener('activate', function(event) {
+    console.log('Service Worker activated!');
+    this.setInterval(() => console.log('TEST'), 2000);
+});
 
 /*
 self.addEventListener('install', function(event) {

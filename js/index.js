@@ -222,30 +222,32 @@ e(`#setNotify`,'click', async () => {
     localStorage.setItem('notify',JSON.stringify(notify));
     //Set the notification timer[----] 
     setNotification();
+    //Close panel
+    q(`#notificationSettings`).classList.remove('show');
+    //Switch interface on
+    q(`#notifications`).classList.add('on');
+    //Jonah speaks!
     q('#streak').innerHTML = `Reminder set!`;
     await sleep(2000);
     q('#streak').innerHTML = ``;
-    //Switch interface on
-    q(`#notifications`).classList.add('on');
-    //Close panel
-    q(`#notificationSettings`).classList.remove('show');
 
 });
 
 //Kill a notification
 e(`#removeNotify`,'click', async () => {
-    // Switch it off
+    //Switch it off
     notify = false;
     localStorage.setItem('notify',notify);
-    // Send a message to the Service Worker to schedule the notification
+    //Send a message to the Service Worker to schedule the notification
     cancelNotification();
-    
+    //Close panel
+    q(`#notificationSettings`).classList.remove('show');
+    //Switch interface off
+    q(`#notifications`).classList.remove('on');
+    //Jonah speaks!
     q('#streak').innerHTML = `Reminder cleared!`;
     await sleep(2000);
     q('#streak').innerHTML = ``;
-
-    q(`#notificationSettings`).classList.remove('show');
-    q(`#notifications`).classList.remove('on');
 });
 
 //Toggle the notification window
@@ -310,3 +312,8 @@ async function setNotification() {
 async function cancelNotification() {
     clearTimeout(notificationTimeoutId);
 }
+
+//Activate Service Worker
+//if ('serviceWorker' in navigator) {
+//    navigator.serviceWorker.register('/js/service-worker.js');
+//}
