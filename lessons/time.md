@@ -62,13 +62,13 @@
 - $a(IN == times
 - $a(tah == the time
 - b:kal $a(ah == always
-- b:$a(IN z:(Erah == in a short time
+- b:$a(IN z;(ErAh == in a short time
 
 - kad.UN == now
 - batar == after
-- qUdaM == before
+- qUdAM == before
 
-- x:dah $a(IN == one o'clock
+- x:dAh $a(IN == one o'clock
 - tartEN $a(IN == two o'clock
 - t:lat $a(IN == three o'clock
 - )rba( $a(IN == four o'clock
@@ -78,8 +78,8 @@
 - t:manE $a(IN == eight o'clock
 - t:$a( $a(IN == nine o'clock
 - (:&ar $a(IN == ten o'clock
-- x:dah (:&rah $a(IN == eleven o'clock
-- tartE (:&rah $a(IN == twelve o'clock
+- x:dAh (:&rAh $a(IN == eleven o'clock
+- tartE (:&rAh $a(IN == twelve o'clock
 
 ## Days of the Week
 ### matching

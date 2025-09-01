@@ -57,8 +57,50 @@ var GET={};
 window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,function(a,name,value){GET[name]=value;});
 
 /* Load in sounds */
+let sound = [];
 let successSound = new Audio('/sounds/success.mp3');
 let failSound = new Audio('/sounds/fail.mp3');
+
+function loadSound(name) {
+    //Load the sound in if it doesn't exist
+    if (sound[name]) return;
+    try {
+        sound[name] = new Audio('/sounds/'+name+'.mp3');
+    }
+    catch (error) {
+        console.log(`Sound ${name} doesn't exist! Keeping quiet.`);
+    }
+}
+function playSound(name) { console.log('Play: ' + name);
+    //If it isn't loaded at all, load it
+    try {
+        if (sound[name] == undefined) {
+            sound[name] = new Audio();
+            sound[name].addEventListener("canplaythrough", (e) => {
+                sound[name].play();
+            });
+            sound[name].src = '/sounds/'+name+'.mp3'
+        }
+        //Otherwise play it
+        else {
+            sound[name].play();
+        }
+    }
+    catch (error) {
+        console.log(`Sound ${name} doesn't exist! Keeping quiet.`);
+    }
+}
+function stopSound() {
+    //Stop all sounds
+    for (var s in sound) {
+        try {
+            sound[s].stop();
+        }
+        catch (error) {
+            console.log(`Sound ${s} doesn't exist! Keeping quiet.`);
+        }
+    }
+}
 
 /* On to the playground! */
 
@@ -153,7 +195,7 @@ for (let l in lesson) {
         //Add in distractions
         if (type == "sentences") { //If sentences, split up by word
             arc = arc.split(' ');
-            eng = eng.replace(/\./g, "").split(' '); //remove periods from english
+            eng = eng.split(' '); //remove periods from english
             section[section.length-1].distractions.arc[type].push(...arc);
             section[section.length-1].distractions.eng[type].push(...eng);
         }
@@ -223,7 +265,7 @@ function stageExercise(exNum) {
         //NOTE: Instead of removing punctuation here, I should keep things split between display and check.
 
         //Remove punctuation
-        if (to == "eng") correctAnswerCheck = ex[to].replace(/\./g, ""); //Remove punctuation
+        //if (to == "eng") correctAnswerCheck = ex[to].replace(/\./g, ""); //Remove punctuation
 
         //Determine possibilities
         let possibilities = correctAnswerCheck.split(' ');
@@ -245,6 +287,8 @@ function stageExercise(exNum) {
 
         //Chop up Aramaic for display
         if (from == "arc") {
+            //Speak it
+            if (from == "arc") playSound(challenge);
             //Format the challenge
             challenge = challenge.split(' ');
             for (var c in challenge) challenge[c] = challenge[c].split('').reverse().join('');
@@ -279,6 +323,7 @@ function stageExercise(exNum) {
         //Add putting possibilities into the landing and back
         e('#possibilities li','click',function (e) { console.log(this,e);
             if (this.parentElement.id == "possibilities") {
+                if (to == "arc") playSound(this.innerText.split('').reverse().join(''));
                 q('#landing').appendChild(this);
             }
             else {

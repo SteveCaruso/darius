@@ -1,6 +1,6 @@
 # The Alphabet
 
-## Unit 1: Letter Names
+## Letter Names
 ### matching
 - ) == 'əlaf
 - b == beṯ
@@ -31,7 +31,7 @@
 - & == śin
 - t == tau
 
-## Unit 2: Transliteration
+## Transliteration
 ### matching
 - )lP == 'lp
 - byt == byt

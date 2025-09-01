@@ -4,7 +4,7 @@
 ### matching
 - +alE          ==  boy
 - +alayyiN      ==  boys
-- +alyyah       ==  girl_*or*_the_boy
+- +alyyah       ==  girl_(or_the_boy)
 - +alayyah      ==  the_boys
 - +alyyaN       ==  girls
 - +alItah       ==  the_girl
@@ -23,7 +23,7 @@
 ## Basic Sentences
 ### sentences
 - ):nah +alE    ==  I'm a boy.
-- ):nah +alyyah ==  I'm a girl_or_the_boy. 
+- ):nah +alyyah ==  I'm a girl_(or_the_boy). 
 - ):nah g:bar   ==  I'm a man.
 - ):nah )It>ah  ==  I'm a woman.
 
@@ -34,7 +34,7 @@
 
 
 - )at. +alE     ==  You're a boy.
-- )at. +alyyah  ==  You're a girl_or_the_boy. 
+- )at. +alyyah  ==  You're a girl_(or_the_boy). 
 - )at. g:bar    ==  You're a man.
 - )at. )It>ah   ==  You're a woman.
 

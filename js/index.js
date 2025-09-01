@@ -81,7 +81,10 @@ async function lesson(file) {
             if (count >= 100) star = "dove";
             q('#list').innerHTML += `
             <tr>
-                <td class="lessonTableTitle"><a href="/lesson.html?lesson=${file}&section=${sec}">${data}</a></td>
+                <td class="lessonTableTitle">
+                    <a href="/lesson.html?lesson=${file}&section=${sec}">${data}</a>
+                    <a class="overviewLink" href="/overview.html?lesson=${file}&section=${sec}">ⓘ</a>
+                </td>
                 <td class="count ${star}">${count}</td>
             </tr>`;
             progress[file].push([sec,parseInt(count)]);
@@ -200,4 +203,110 @@ else {
     localStorage.setItem("streak",0);
     if (last != 0)
         q('#streak').innerHTML = `Welcome back!`;
+}
+
+//Notifications
+let notify = localStorage.getItem('notify') ?? false;
+    if (notify != false) 
+        notify = JSON.parse(notify);
+let notificationTimeoutId = null;
+
+//Set notification
+e(`#setNotify`,'click', async () => {
+
+    //Set the notifications element
+    notify = {
+        'h':parseInt(q(`#hour`).value) + parseInt(q(`#meridian`).value),
+        'm':parseInt(q(`#minute`).value)
+    };
+    localStorage.setItem('notify',JSON.stringify(notify));
+    //Set the notification timer[----] 
+    setNotification();
+    q('#streak').innerHTML = `Reminder set!`;
+    await sleep(2000);
+    q('#streak').innerHTML = ``;
+    //Switch interface on
+    q(`#notifications`).classList.add('on');
+    //Close panel
+    q(`#notificationSettings`).classList.remove('show');
+
+});
+
+//Kill a notification
+e(`#removeNotify`,'click', async () => {
+    // Switch it off
+    notify = false;
+    localStorage.setItem('notify',notify);
+    // Send a message to the Service Worker to schedule the notification
+    cancelNotification();
+    
+    q('#streak').innerHTML = `Reminder cleared!`;
+    await sleep(2000);
+    q('#streak').innerHTML = ``;
+
+    q(`#notificationSettings`).classList.remove('show');
+    q(`#notifications`).classList.remove('on');
+});
+
+//Toggle the notification window
+q(`#notifications`).onclick = () => {
+    q(`#notificationSettings`).classList.toggle('show');
+};
+
+//On/off indicator
+if (notify != false) {
+    setNotification();
+    let hour = notify.h;
+    let minute = notify.m;
+    q(`#notifications`).classList.add('on');
+    if (hour >= 12) {
+        q(`#meridian option[value='12']`).selected = true;
+        hour -= 12;
+    }
+    q(`#hour option[value='${hour}']`).selected = true;
+    q(`#minute option[value='${minute}']`).selected = true;
+}
+
+async function setNotification() {
+    console.log("Setting a notification...");
+
+    //Get permission here
+    Notification.requestPermission().then(async (permission) => {
+
+        if (permission !== "granted") {
+            alert("Cannot obtain permissions.");
+            return;
+        }
+
+        let now = new Date();
+        let targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 
+                                notify.h, notify.m, 0, 0
+                        );
+
+        if (targetTime <= now) {
+            targetTime.setDate(targetTime.getDate() + 1);
+        }
+
+        console.log(targetTime);
+
+        let timeUntilNotification = targetTime.getTime() - now.getTime();
+
+        notificationTimeoutId = setTimeout(function() {
+            const notification = new Notification('Aramaic Reminder!', {
+                body: `Jonah says: It's time for your Aramaic lesson!"`,
+                icon: `https://learn.galileanaramaic.com/img/jonah.png`
+            });
+
+            notification.onclick = function() {
+                window.open('https://learn.galileanaramaic.com', '');
+            };
+
+            setNotification();
+
+        }, timeUntilNotification);
+
+    });
+}
+async function cancelNotification() {
+    clearTimeout(notificationTimeoutId);
 }

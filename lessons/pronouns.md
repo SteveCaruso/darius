@@ -1,28 +1,28 @@
 # Pronouns
 
-## Unit 1: Personal Pronouns
+## Personal Pronouns
 ### matching
 - ):nah  ==  I_(am) 
-- )at.   ==  you_(are) 
+- )at.   ==  you_(are)_(s.) 
 - hU)    ==  he_(is) 
 - hI)    ==  she_(is)
 - ):naN  ==  we_(are) 
 - )at.ON ==  you_(are)_(m.) 
 - )at.EN ==  you_(are)_(f.) 
-- hEnUN  ==  they_(are)_(m.) 
-- hEnEN  ==  they_(are)_(f.) 
+- hEn.UN ==  they_(are)_(m.) 
+- hEn.IN ==  they_(are)_(f.) 
 
-## Unit 2: Demonstrative Pronouns
+## Demonstrative Pronouns
 ### matching
-- d:N      == this_(m.)
-- dah      == this_(f.)
-- )ElayyiN == these
-- hahU)    == that_(m.)
-- hahI)    == that_(f.)
-- hahEnUN  == those_(m.)
-- hahEnEN  == those_(f.)
+- d:N       == this_(m.)
+- dah       == this_(f.)
+- )ElAyyiN  == these
+- hahU)     == that_(m.)
+- hahI)     == that_(f.)
+- hahEn.UN  == those_(m.)
+- hahEn.EN  == those_(f.)
 
-## Unit 3: Interrogatives
+## Interrogatives
 ### matching
 - maN     == Who
 - mah     == What
@@ -35,7 +35,7 @@
 - h:K     == How
 - l:maN   == Whose
 
-## Unit 4: What is the Matter?
+## What is the Matter?
 ### sentences
 - mah lI    == What is the matter with me?
 - mah laK   == What is the matter with you_(m.s.)?
