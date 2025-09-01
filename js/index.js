@@ -251,8 +251,15 @@ e(`#removeNotify`,'click', async () => {
 });
 
 //Toggle the notification window
-q(`#notifications`).onclick = () => {
-    q(`#notificationSettings`).classList.toggle('show');
+q(`#notifications`).onclick = async () => {
+    if (q(`#notificationSettings`).classList.contains('show')) {
+        q(`#notificationSettings`).classList.remove('show');
+        q('#streak').innerHTML = ``;
+    }
+    else {
+        q(`#notificationSettings`).classList.add('show');
+        q('#streak').innerHTML = `Set a reminder?`;
+    }
 };
 
 //On/off indicator
