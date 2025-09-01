@@ -1,4 +1,4 @@
-<p style="text-align:center">
+<p align="center">
 <img src="img/jonah.png" style="max-width:150px; border-radius:150px;"><br>
 <em>(This is Jonah. :-) )</em>
 </p>
