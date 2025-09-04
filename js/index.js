@@ -21,6 +21,9 @@ var e = (query,event,func) => {
         elements[i].addEventListener(event,func);
 };
 
+//Random number helper
+let rand = (n) => Math.floor(Math.random()*n);
+
 //Sleep
 var sleep = function(ms) {
     return new Promise((resolve, reject) => {
@@ -228,9 +231,10 @@ e(`#setNotify`,'click', async () => {
     q(`#notifications`).classList.add('on');
     //Jonah speaks!
     q('#streak').innerHTML = `Reminder set!`;
+    q(`#mainLogo`).src = '/img/jonah-happy.png';
     await sleep(2000);
     q('#streak').innerHTML = ``;
-
+    q(`#mainLogo`).src = '/img/jonah.png';
 });
 
 //Kill a notification
@@ -246,8 +250,10 @@ e(`#removeNotify`,'click', async () => {
     q(`#notifications`).classList.remove('on');
     //Jonah speaks!
     q('#streak').innerHTML = `Reminder cleared!`;
+    q(`#mainLogo`).src = '/img/jonah-happy.png';
     await sleep(2000);
     q('#streak').innerHTML = ``;
+    q(`#mainLogo`).src = '/img/jonah.png';
 });
 
 //Toggle the notification window
@@ -283,7 +289,7 @@ async function setNotification() {
     Notification.requestPermission().then(async (permission) => {
 
         if (permission !== "granted") {
-            alert("Cannot obtain permissions.");
+            alert("Cannot obtain permissions! You may have to re-set your reminder.");
             return;
         }
 
@@ -319,6 +325,18 @@ async function setNotification() {
 async function cancelNotification() {
     clearTimeout(notificationTimeoutId);
 }
+
+
+//Jonah's blink cycle
+async function jonahBlink() {
+    await sleep(rand(10000)+rand(10000));
+    q(`#mainLogo`).src = '/img/jonah-blink.png';
+    await sleep(100);
+    q(`#mainLogo`).src = '/img/jonah.png';
+    jonahBlink();
+}
+jonahBlink();
+
 
 //Activate Service Worker
 //if ('serviceWorker' in navigator) {
