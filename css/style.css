@@ -71,13 +71,12 @@ li {
     line-height:.8;
     padding:1ex;
     padding-bottom:1.4ex;
-    margin:0px .5ex ;
+    margin: 0.5ex;
     border:1px solid;
     border-radius:10px;
 }
 #landing {
     border-bottom:2px solid var(--lines);
-    height:50px;
     padding-bottom:20px;
 }
 
@@ -100,6 +99,9 @@ gal {
     line-height:60%;
 }
 
+#playground h2 {
+    cursor: pointer;
+}
 h2.arc, #landing.arc, #answer.arc {
     font-weight:normal;
     display:flex;

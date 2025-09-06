@@ -285,16 +285,20 @@ function stageExercise(exNum) {
         //Shuffle possibilities
         possibilities = possibilities.sort(() => Math.random() - 0.5);
 
+        //Sound file name
+        let soundName;
+
         //Chop up Aramaic for display
         if (from == "arc") {
             //Speak it
-            if (from == "arc") playSound(challenge);
+            if (from == "arc") {
+                soundName = challenge;
+                playSound(soundName);
+            }
             //Format the challenge
             challenge = challenge.split(' ');
             for (var c in challenge) challenge[c] = challenge[c].split('').reverse().join('');
             challenge = '<span>' + challenge.join('</span> <span>') + '</span>';
-
-            //
         }
         if (to == "arc") {
             //Format distractions
@@ -319,6 +323,11 @@ function stageExercise(exNum) {
         
 
         //Attach events
+
+        //Click to reply audio
+        e('h2.arc','click',function (e) {
+            playSound(soundName);
+        });
 
         //Add putting possibilities into the landing and back
         e('#possibilities li','click',function (e) { console.log(this,e);
