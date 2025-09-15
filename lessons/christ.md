@@ -1,7 +1,7 @@
 # The Sayings of Christ
 
 
-## Beattitudes 1
+## Beatitudes 1
 
 
 CPA Lag Mat 5:3: ܛܘܒܝܗܘܢ ܡܣܟܝܢܝܐ ܒܪܘܚܐ ܕܕܝܠܗܘܢ ܗܝ ܡܠܟܘܬܐ ܕܫܘܡܝܐ
@@ -43,7 +43,7 @@ Form יירתון = /y;rAtUN/ from TN Deut 1:39
 - )ar(ah == the earth
 
 
-## Beattitudes 2
+## Beatitudes 2
 
 CPA Lag Mat 5:6: ܛܘܒܝܗܘܢ ܗܠܝܢ ܕܟܦܢܝܢ ܘܨܗܝܢ ܠܨܕܩܐ ܕܗܢܘܢ ܝܣܒܘܥܘܢ܃
 
@@ -86,7 +86,7 @@ Galilean doubles the bet in /lb/ in the plural.
 - ):lah == God
 
 
-## Beattitudes 3
+## Beatitudes 3
 
 CPA Lag Mat 5:9: ܛܘܒܝܗܘܢ ܗܠܝܢ ܕܥܒܕܝܢ ܫܝܠܡܐ ܕܗܢܘܢ ܒܢܘܝ ܕܐܠܗܐ ܝܬܿܩܪܘܢ
 
